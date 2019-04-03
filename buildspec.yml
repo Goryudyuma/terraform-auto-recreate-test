@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - terraform plan
+  build:
+    commands:
+      - terraform destroy -auto-approve -target=aws_ecs_cluster.goryudyuma-test-cluster
+      - terraform apply -auto-approve -target=aws_ecs_cluster.goryudyuma-test-cluster
