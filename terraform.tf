@@ -57,3 +57,32 @@ data "aws_iam_policy_document" "goryudyuma-auto-terraform-service-role" {
     }
   }
 }
+
+resource "aws_iam_role_policy" "goryudyuma-auto-terraform-service-role-policy" {
+  policy = "${data.aws_iam_policy_document.goryudyuma-auto-terraform-service-role-policy.json}"
+  role   = "${aws_iam_role.goryudyuma-auto-terraform-service-role.id}"
+}
+
+data "aws_iam_policy_document" "goryudyuma-auto-terraform-service-role-policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ecs:*",
+    ]
+
+    resources = ["*"]
+  }
+}
